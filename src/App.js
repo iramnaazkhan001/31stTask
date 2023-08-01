@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Clock from './Clock';
+import CarList from './Carlist';
+import CarSearch from './CarSearch';
 
-function App() {
+const carData = [
+  { make: 'Honda', model: 'Vezel', condition: 'New', price: 2000 },
+  { make: 'Honda', model: 'Civic', condition: 'Used', price: 3000 },
+ 
+];
+
+const App = () => {
+  const [filteredCars, setFilteredCars] = useState(carData);
+
+  const handleSearch = (term) => {
+    const filtered = carData.filter(
+      (car) =>
+        car.make.toLowerCase().includes(term.toLowerCase()) ||
+        car.model.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredCars(filtered);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h5>Current Time: <Clock /></h5>
+     
+      <CarList cars={filteredCars} />
+      <h2>CarSearch</h2>
+      <CarSearch placeholder='Enter a car detail'  data={handleSearch}/>
     </div>
   );
-}
+};
 
 export default App;
